@@ -10,11 +10,13 @@ class App extends React.Component {
     add(text) {
         store.dispatch({type: 'ADD', text});
     }
-
+    toggle(index){
+        store.dispatch({type:'TOGGLE',index})
+    }
     render() {
         return <div>
+            <TodoList todos={store.getState().todos} onToggle={this.toggle.bind(this)}/>
             <AddTodo onAdd={this.add}/>
-            <TodoList todos={store.getState().todos}/>
         </div>
     }
 
@@ -23,14 +25,15 @@ class App extends React.Component {
 class TodoList extends React.Component {
     render() {
         return <div>
-            hello
-            {this.props.todos.map(todo=> {
-                    return <div>
-                        {todo.text}
+            {this.props.todos.map((todo,index)=> {
+                    return <div key={index}>
+                        <input type="checkbox" onClick={this.props.onToggle.bind(this, index)}/>
+                        <span style={{"display":"inline","textDecoration":todo.isDone ? 'line-through':''}}>
+                            {todo.text}</span>
                     </div>
                 }
             )}
-        </div>
+            </div>
     }
 }
 

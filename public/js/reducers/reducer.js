@@ -6,6 +6,9 @@ export default function reducer(state = {todos: []}, action){
         case 'TOGGLE':
             state.todos[action.index].isDone = !state.todos[action.index].isDone;
             return state;
+        case 'SET_FILTER':
+            state.filterName = action.filterName;
+            return state;
     }
     return state;
 }

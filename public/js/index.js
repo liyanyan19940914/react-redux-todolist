@@ -10,28 +10,44 @@ class App extends React.Component {
     add(text) {
         store.dispatch({type: 'ADD', text});
     }
-    render(){
+
+    render() {
         return <div>
+            <AddTodo onAdd={this.add}/>
             <TodoList todos={store.getState().todos}/>
         </div>
     }
 
 }
 
-class TodoList extends React.Component{
-    render(){
+class TodoList extends React.Component {
+    render() {
         return <div>
             hello
-            {this.props.todos.map(todo=>{
-                return <div>
-                    {todo.text}
-                </div>
+            {this.props.todos.map(todo=> {
+                    return <div>
+                        {todo.text}
+                    </div>
                 }
             )}
         </div>
     }
 }
 
+class AddTodo extends React.Component {
+    add() {
+        const text = this.refs.myInput.value;
+        this.props.onAdd(text);
+        this.refs.myInput.value = ''
+    }
+
+    render() {
+        return <div>
+            <input type="text" ref="myInput"/>
+            <button onClick={this.add.bind(this)}>添加</button>
+        </div>
+    }
+}
 function renderFunction() {
     "use strict";
     render(<App/>, document.getElementById('root'))
